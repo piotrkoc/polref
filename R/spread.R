@@ -8,7 +8,7 @@ wagner_measure <- function(dataset){
     # missing values lower house election vote shares
     mutate_at(
       vars(voteshare_lower_party_A:voteshare_lower_party_I),
-      funs(case_when(
+      .funs = list(~case_when(
         . == 0 ~ NA,
         . >= 70 ~ NA,
         TRUE ~ .
@@ -18,7 +18,7 @@ wagner_measure <- function(dataset){
     # missing values like-dislike scores
     mutate_at(
       vars(likedislike_party_A:likedislike_party_I),
-      funs(case_when(
+      .funs = list(~case_when(
         . >= 11 ~ NA,
         TRUE ~ .
       ))
@@ -27,7 +27,7 @@ wagner_measure <- function(dataset){
     # missing values upper house vote shares
     mutate_at(
       vars(voteshare_upper_party_A:voteshare_upper_party_I),
-      funs(case_when(
+      .funs = list(~case_when(
         . == 0 ~ NA,
         . >= 70 ~ NA,
         TRUE ~ .
@@ -37,7 +37,7 @@ wagner_measure <- function(dataset){
     # missing values presidential vote shares
     mutate_at(
       vars(voteshare_president_party_A:voteshare_president_party_I),
-      funs(case_when(
+      .funs = list(~case_when(
         . == 0 ~ NA,
         . >= 70 ~ NA,
         TRUE ~ .
