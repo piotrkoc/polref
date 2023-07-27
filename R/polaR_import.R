@@ -4,12 +4,13 @@
 #'
 #' @param path File path string to a .dta file
 #' @param source The source of the data, e.g. CSES 5
+#' @param keep_all_ess defaults to TRUE, keep all variables in the ESS or reduce the dataset size to be able to handle the data
 #'
 #' @return CSES IMD dataset that is ready for use with other functions
 #'
 #' @example
 #' @export
-polaR_import <- function(source, path){
+polaR_import <- function(source, path, keep_all_ess = TRUE){
   dataset <- read_stata(path) %>%
     zap_labels()
 
@@ -22,10 +23,13 @@ polaR_import <- function(source, path){
 
   dataset <- country_codes(dataset, source)
 
-  # ESS is too big, filtering only variables occurring in the dataset
-  if (source == "ess"){
-    dataset <- dataset %>%
-      select(starts_with(var_dict$name_dict))
+
+  if (keep_all_ess == FALSE){
+    # ESS is too big, filtering only variables occurring in the dataset
+    if (source == "ess"){
+      dataset <- dataset %>%
+        select(starts_with(var_dict$name_dict))
+    }
   }
 
   return(dataset)
