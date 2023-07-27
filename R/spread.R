@@ -2,7 +2,9 @@
 #' @param dataset Imported Dataset with adapted Varnames, originally CSES IMD
 #' @return Dataset with added variables affpol and affpolwgt (plus helper variables)
 #' @export
-wagner_measure <- function(dataset){
+spread <- function(dataset){
+
+  backup_dataset <- dataset
 
   dataset <- dataset %>%
     # missing values lower house election vote shares
@@ -174,6 +176,11 @@ wagner_measure <- function(dataset){
     NA,
     dataset$affpolwgt
   )
+
+  backup_dataset$spread <- dataset$affpol
+  backup_dataset$spread_wgt <- dataset$affpolwgt
+
+  dataset <- backup_dataset
 
   return(dataset)
 

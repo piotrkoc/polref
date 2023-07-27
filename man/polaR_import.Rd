@@ -6,12 +6,14 @@
 Import the CSES Integrated Dataset.
 Takes .dta files, renames and formats package-relevant variables.}
 \usage{
-polaR_import(source, path)
+polaR_import(source, path, keep_all_ess = TRUE)
 }
 \arguments{
 \item{source}{The source of the data, e.g. CSES 5}
 
 \item{path}{File path string to a .dta file}
+
+\item{keep_all_ess}{defaults to TRUE, keep all variables in the ESS or reduce the dataset size to be able to handle the data}
 }
 \value{
 CSES IMD dataset that is ready for use with other functions
