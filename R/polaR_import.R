@@ -10,7 +10,7 @@
 #'
 #' @example
 #' @export
-polaR_import <- function(source, path, keep_all_ess = TRUE){
+polaR_import <- function(source, path, keep_all = TRUE){
   dataset <- read_stata(path) %>%
     zap_labels()
 
@@ -24,12 +24,10 @@ polaR_import <- function(source, path, keep_all_ess = TRUE){
   dataset <- country_codes(dataset, source)
 
 
-  if (keep_all_ess == FALSE){
+  if (keep_all == FALSE){
     # ESS is too big, filtering only variables occurring in the dataset
-    if (source == "ess"){
       dataset <- dataset %>%
         select(starts_with(var_dict$name_dict))
-    }
   }
 
   return(dataset)
