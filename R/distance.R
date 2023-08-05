@@ -6,57 +6,7 @@ distance <- function(dataset){
 
   backup_dataset <- dataset
 
-  dataset <- dataset %>%
-    # missing values lower house election vote shares
-    mutate_at(
-      vars(voteshare_lower_party_A:voteshare_lower_party_I),
-      .funs = list(~case_when(
-        . == 0 ~ NA,
-        . >= 70 ~ NA,
-        TRUE ~ .
-      ))
-    ) %>%
-
-    # missing values like-dislike scores
-    mutate_at(
-      vars(likedislike_party_A:likedislike_party_I),
-      .funs = list(~case_when(
-        . >= 11 ~ NA,
-        TRUE ~ .
-      ))
-    ) %>%
-
-    # missing values upper house vote shares
-    mutate_at(
-      vars(voteshare_upper_party_A:voteshare_upper_party_I),
-      .funs = list(~case_when(
-        . == 0 ~ NA,
-        . >= 70 ~ NA,
-        TRUE ~ .
-      ))
-    ) %>%
-
-    # missing values presidential vote shares
-    mutate_at(
-      vars(voteshare_president_party_A:voteshare_president_party_I),
-      .funs = list(~case_when(
-        . == 0 ~ NA,
-        . >= 70 ~ NA,
-        TRUE ~ .
-      ))
-    )
-
-  # replace lower house scores with presidential scores where relevant
-  for(letter in c("A", "B", "C", "D", "E", "F", "G", "H", "I")) {
-    voteshare_lower_party <- paste0("voteshare_lower_party_", letter)
-    voteshare_president_party <- paste0("voteshare_president_party_", letter)
-
-    dataset[[voteshare_lower_party]] <- ifelse(
-      is.na(dataset[[voteshare_lower_party]]) & !is.na(dataset[[voteshare_president_party]]),
-      dataset[[voteshare_president_party]],
-      dataset[[voteshare_lower_party]])
-
-  }
+  dataset <- replace_voteshare(dataset)
 
   vars_likedislike_party <- c("likedislike_party_A", "likedislike_party_B", "likedislike_party_C", "likedislike_party_D", "likedislike_party_E", "likedislike_party_F", "likedislike_party_G", "likedislike_party_H", "likedislike_party_I")
   vars_voteshare_lower_party <- c("voteshare_lower_party_A", "voteshare_lower_party_B", "voteshare_lower_party_C", "voteshare_lower_party_D", "voteshare_lower_party_E", "voteshare_lower_party_F", "voteshare_lower_party_G", "voteshare_lower_party_H", "voteshare_lower_party_I")

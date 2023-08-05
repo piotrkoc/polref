@@ -15,6 +15,7 @@ rename_variables <- function(dataset, source){
   # Rename each variable, if existant, to our variable name
   for(x in c(1:nrow(var_dict))){
     if(var_dict[[x,2]] != ""){
+      #dataset[paste(var_dict[x,2])] <- dataset[paste(var_dict[x,2])]
       colnames(dataset) <- sub(var_dict[x,2], var_dict[x,1], colnames(dataset))
     }}
 

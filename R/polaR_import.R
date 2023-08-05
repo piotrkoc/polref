@@ -19,7 +19,7 @@ polaR_import <- function(source, path, keep_all = TRUE){
     mutate(year = format(year, format = "%Y"))
 
   # reformat missings to NA
-  dataset <- recode_missings(dataset)
+  dataset <- recode_missings(dataset, source)
 
   dataset <- country_codes(dataset, source)
 

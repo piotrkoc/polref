@@ -6,7 +6,7 @@
 Import the CSES Integrated Dataset.
 Takes .dta files, renames and formats package-relevant variables.}
 \usage{
-polaR_import(source, path, keep_all_ess = TRUE)
+polaR_import(source, path, keep_all = TRUE)
 }
 \arguments{
 \item{source}{The source of the data, e.g. CSES 5}

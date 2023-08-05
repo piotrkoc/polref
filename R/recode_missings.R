@@ -3,7 +3,7 @@
 #' @param dataset .df object
 #' @return DF with recoded missings
 #' @export
-recode_missings <- function(dataset){
+recode_missings <- function(dataset, source){
 
 
   # Goes through every variable name in var_dict,
@@ -39,6 +39,49 @@ recode_missings <- function(dataset){
                 . == 95 ~ NA,
                 TRUE ~ .
               ))
+  }
+
+  if (grepl("cses", source)){
+    dataset <- dataset %>%
+      # missing values lower house election vote shares
+      mutate_at(
+        vars(voteshare_lower_party_A:voteshare_lower_party_I),
+        .funs = list(~case_when(
+          . == 0 ~ NA,
+          . >= 70 ~ NA,
+          TRUE ~ .
+        ))
+      ) %>%
+
+      # missing values like-dislike scores
+      mutate_at(
+        vars(likedislike_party_A:likedislike_party_I),
+        .funs = list(~case_when(
+          . >= 11 ~ NA,
+          TRUE ~ .
+        ))
+      ) %>%
+
+      # missing values upper house vote shares
+      mutate_at(
+        vars(voteshare_upper_party_A:voteshare_upper_party_I),
+        .funs = list(~case_when(
+          . == 0 ~ NA,
+          . >= 70 ~ NA,
+          TRUE ~ .
+        ))
+      ) %>%
+
+      # missing values presidential vote shares
+      mutate_at(
+        vars(voteshare_president_party_A:voteshare_president_party_I),
+        .funs = list(~case_when(
+          . == 0 ~ NA,
+          . >= 70 ~ NA,
+          TRUE ~ .
+        ))
+      )
+
   }
 
   return(dataset)
