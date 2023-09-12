@@ -127,8 +127,8 @@ spread_likedislike <- function(dataset){
     dataset$affpolwgt
   )
 
-  backup_dataset$spread <- dataset$affpol
-  backup_dataset$spread_wgt <- dataset$affpolwgt
+  backup_dataset$spread_likedislike <- dataset$affpol
+  backup_dataset$spread_likedislike_wgt <- dataset$affpolwgt
 
   dataset <- backup_dataset
 

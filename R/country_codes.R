@@ -24,7 +24,7 @@ country_codes <- function (dataset, source){
     }
   }
 
-  dataset[["country_full"]] <- countrycode(dataset[["country_iso2c"]],
+  dataset[["country"]] <- countrycode(dataset[["country_iso2c"]],
                                            origin = "iso2c",
                                            destination = "country.name",
                                            custom_match = c('XK' = 'Kosovo',

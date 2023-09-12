@@ -10,7 +10,7 @@ sd_aggregate <- function(data, score_var){
 
   dataset_string <- deparse(substitute(data))
 
-  data <- aggregate(data[[score_var]] ~ data[["country_full"]] + data[["year"]],
+  data <- aggregate(data[[score_var]] ~ data[["country"]] + data[["year"]],
                     data = data,
                     FUN = function(x) sd(x))
 
