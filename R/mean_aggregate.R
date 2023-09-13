@@ -8,7 +8,7 @@ mean_aggregate <- function(data, polarization_var){
 
   dataset_string <- deparse(substitute(data))
 
-  data <- aggregate(data[[polarization_var]] ~ data[["country_full"]] + data[["year"]],
+  data <- aggregate(data[[polarization_var]] ~ data[["country"]] + data[["year"]],
                     data = data,
                     FUN = function(x) mean(x))
 

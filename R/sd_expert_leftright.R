@@ -9,7 +9,7 @@ sd_expert_leftright <- function(data){
   dataset_string <- deparse(substitute(data))
 
   data <- data %>%
-    select(country_full, year, leftright_expert_party_A:leftright_expert_party_I) %>%
+    select(country, year, leftright_expert_party_A:leftright_expert_party_I) %>%
     unique()
 
   data["pol_score"] <- apply(data[, leftright_expert_parties], 1, sd, na.rm = TRUE)

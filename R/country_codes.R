@@ -11,25 +11,18 @@ country_codes <- function (dataset, source){
 
   if (as.character(source) %in% colnames(country_dict)){
 
-    dataset[["country_iso2c"]] <- NA
+    dataset[["country"]] <- NA
 
     for(x in c(1:nrow(country_dict))){
 
         dataset <- dataset %>%
           mutate(country_iso2c = case_when(
-            country_orig == country_dict[[x, source]] ~ country_dict[[x, "country_iso2c"]],
-            TRUE ~ country_iso2c
+            country_orig == country_dict[[x, source]] ~ country_dict[[x, "country"]],
+            TRUE ~ country
 
           ))
     }
-  }
-
-  dataset[["country"]] <- countrycode(dataset[["country_iso2c"]],
-                                           origin = "iso2c",
-                                           destination = "country.name",
-                                           custom_match = c('XK' = 'Kosovo',
-                                                            'GDR' = 'German Democratic Republic',
-                                                            'NIE' = 'Northern Ireland'))
+  } else {print("Countries not defined")}
 
   return(dataset)
 }
