@@ -16,13 +16,13 @@ country_codes <- function (dataset, source){
     for(x in c(1:nrow(country_dict))){
 
         dataset <- dataset %>%
-          mutate(country_iso2c = case_when(
+          mutate(country = case_when(
             country_orig == country_dict[[x, source]] ~ country_dict[[x, "country"]],
             TRUE ~ country
 
           ))
     }
-  } else {print("Countries not defined")}
+  } else {print("Countries not defined in `country_dict`")}
 
   return(dataset)
 }

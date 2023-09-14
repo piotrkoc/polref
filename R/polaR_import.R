@@ -15,8 +15,10 @@ polaR_import <- function(source, path, keep_all = TRUE){
     zap_labels()
 
   # Rename Variables into corresponding package vars, see polaR:::var_dict
-  dataset <- rename_variables(dataset, paste(source)) %>%
-    mutate(year = format(year, format = "%Y"))
+  dataset <- rename_variables(dataset, paste(source))
+
+  # Code Year variables
+  dataset <- code_years(dataset)
 
   # reformat missings to NA
   dataset <- recode_missings(dataset, source)
