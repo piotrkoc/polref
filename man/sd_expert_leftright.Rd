@@ -4,7 +4,7 @@
 \alias{sd_expert_leftright}
 \title{Standard deviation of expert party evaluations}
 \usage{
-sd_expert_leftright(data)
+sd_expert_leftright(dataset)
 }
 \arguments{
 \item{data}{Dataset with expert lr expert evaluations as columns}

@@ -61,6 +61,7 @@ distance <- function(dataset){
 
   # Identify party column with highest like score
   dataset$mostlikedparty <- colnames(dataset[vars_likedislike_party])[max.col(replace(dataset[vars_likedislike_party], is.na(dataset[vars_likedislike_party]), -Inf),ties.method="first")]
+
   dataset <- dataset %>%
     # Remove most liked party when the values are NA
     mutate(mostlikedparty = case_when(
@@ -100,8 +101,9 @@ distance <- function(dataset){
   }
 
   # Square Root of the sum of all likeminuslike scores divided by the number of parties
+  # If partynumber > 0
   vars_likeminuslike <- c("likeminuslike_A", "likeminuslike_B", "likeminuslike_C", "likeminuslike_D", "likeminuslike_E", "likeminuslike_F", "likeminuslike_G", "likeminuslike_H", "likeminuslike_I")
-  dataset$distance <- sqrt(rowSums(dataset[vars_likeminuslike], na.rm = TRUE)/dataset$partynumber)
+  dataset$distance <- ifelse(dataset[["partynumber"]] != 0, sqrt(rowSums(dataset[vars_likeminuslike], na.rm = TRUE)/dataset$partynumber), NA)
 
   # Weighted Like-Minus-Like Scores
   for(letter in c("A", "B", "C", "D", "E", "F", "G", "H", "I")) {
@@ -115,8 +117,10 @@ distance <- function(dataset){
   }
 
   # Square Root of the sum of all weighted likeminuslike scores
+  # If completenumber > 0
   vars_likeminuslike_wgt <- c("likeminuslike_A_wgt", "likeminuslike_B_wgt", "likeminuslike_C_wgt", "likeminuslike_D_wgt", "likeminuslike_E_wgt", "likeminuslike_F_wgt", "likeminuslike_G_wgt", "likeminuslike_H_wgt", "likeminuslike_I_wgt")
-  dataset$distance_wgt <- sqrt(rowSums(dataset[vars_likeminuslike_wgt], na.rm = TRUE))
+  dataset$distance_wgt <- ifelse(dataset[["completenumber"]] != 0, sqrt(rowSums(dataset[vars_likeminuslike_wgt], na.rm = TRUE)), NA)
+  dataset$distance_wgt <- ifelse(dataset[["completenumber"]] == 1, NA, dataset$distance_wgt)
 
   backup_dataset$distance <- dataset$distance
   backup_dataset$distance_wgt <- dataset$distance_wgt

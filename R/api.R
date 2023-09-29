@@ -82,7 +82,7 @@ api <- function(dataset){
     APn <-  paste0("APn_", letter)
     voteshare_outparty <- paste0("voteshare_lower_party_", letter)
 
-    # Inparty-Like minus Outparty-Like weighted by Outparty-Voteshare relative to sum of all outparty votes
+    # Inparty-Like minus Outparty-Like, weighted by Outparty-Voteshare relative to sum of all outparty votes
     dataset[[APn]] <- (dataset[["inparty_like"]] - dataset[[likedislike_outparty]])*(dataset[[voteshare_outparty]]/dataset[["sum_outparty_votes"]])
 
   }
@@ -92,16 +92,17 @@ api <- function(dataset){
   dataset[["APn"]] <- rowSums(dataset[, vars_APn], na.rm = TRUE)
 
   # Weight by Inparty Voteshare
-  dataset[["API"]] <- dataset[["APn"]]*(dataset[["inparty_vote"]]/100)
+  dataset[["API"]] <- dataset[["APn"]]*(dataset[["inparty_vote"]]/(dataset[["inparty_vote"]] + dataset[["sum_outparty_votes"]]))
 
   # Sum up weighted scores of all parties
   dataset <- dataset %>%
     group_by(country, year) %>%
-    mutate(pol_score = sum(API, na.rm = TRUE))
+    filter(APn > 0 & !is.na(API)) %>%
+    summarise(pol_score = sum(API, na.rm = TRUE))
 
   dataset[["measure"]] <- "api"
   dataset[["dataset"]] <- dataset_string
-  dataset <- dataset[, c("country", "year", "pol_score", "dataset", "measure")] %>% unique()
+  dataset <- dataset[, c("country", "year", "pol_score", "dataset", "measure")]
 
   return(dataset)
 
