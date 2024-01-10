@@ -18,7 +18,7 @@ polaR_import <- function(source, path, keep_all = TRUE){
   dataset <- rename_variables(dataset, paste(source))
 
   # Code Year variables
-  dataset <- code_years(dataset)
+  #dataset <- code_years(dataset)
 
   # reformat missings to NA
   dataset <- recode_missings(dataset, source)
